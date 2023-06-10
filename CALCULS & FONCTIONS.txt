@@ -20,7 +20,7 @@ SELECT RefProd AS Reference,
 
 SELECT RefProd, 
         PrixUnit * UnitesStock AS "Montant en stock"
-    FROM Produit;             #le montatn en stock pour chaque produit est égall au prix unitaire multiplié par la quantité de produits en stock
+    FROM Produit;             #le montant en stock pour chaque produit est égal au prix unitaire multiplié par la quantité de produits en stock
 
 
 ## COMBINAISON DE CLAUSES
@@ -46,7 +46,7 @@ SELECT RefProd,
 SELECT RefProd, 
         PrixUnit * (UnitesStock - 10)
     FROM Produit
-    WHERE UnitesStock >= 10;           #calcule le montant en stock directement disponible, en tenant en compte de la contrainte précédente
+    WHERE UnitesStock >= 10;           #calcule le montant en stock directement disponible, en tenant compte de la contrainte précédente
 
 
 ## ARRONDI
@@ -54,7 +54,7 @@ SELECT RefProd,
 
 SELECT RefProd, 
         ROUND(PrixUnit * 1.05) AS "Nouveau Prix"
-    FROM Produit;             #calcule d'une augmentation de 5% des prix des produits
+    FROM Produit;             #calcule une augmentation de 5% des prix des produits
 
 
 SELECT RefProd, 
@@ -107,7 +107,6 @@ SELECT NoEmp, Nom, LENGTH(Nom)
 SELECT Nom, Prenom, Fonction,
         REPLACE(Fonction, "Chef", "Responsable")
     FROM Employe;     
-
 #La commande REPLACE(chaîne, sc1, sc2) permet de remplacer la sous-chaîne sc1 par la sous-chaîne sc2 dans la chaîne de caractères passée en premier paramètre.
 
 
@@ -117,7 +116,6 @@ SELECT Nom, Prenom, Fonction,
 SELECT Nom, Adresse,
         INSTR(Adresse, "Ave.")
     FROM Employe;
-
 #commande INSTR(chaîne, souschaine) permet de rechercher la première apparition d'une sous-chaîne dans une chaîne.
 #Si la sous-chaîne n'est pas présente, la fonction renvoie 0.
 
@@ -150,7 +148,6 @@ SELECT DATE("now") AS "Aujourd'hui",
         STRFTIME("%m", "now") AS "Mois",
         STRFTIME("%d", "now") AS "Jour",
         STRFTIME("%d/%m/%Y", "now") AS "Nouveau format";
-
 #le jour de la semaine a une valeur entre 0 (pour le dimanche) et 6 (pour le samedi). Par contre, le jour de l'année a une valeur entre 1 et 366. Le numéro de semaine dans l'année commence lui aussi à 0 jusqu'à 52 (voire 53).
 
 
@@ -180,7 +177,6 @@ SELECT NoEmp, Nom, Prenom, TitreCourtoisie,
             ELSE TitreCourtoisie
         END AS Titre
     FROM Employe;
-
 #Affiche les titres de courtoisie Mlle, Mme et M en entier. La requête ne modifie pas les autres titres présents dans la table 
 
 
@@ -191,7 +187,6 @@ SELECT Refprod, Nomprod, NiveauReap,
             ELSE "Réapprovisionnement à partir de " || NiveauReap || " unités restantes"
         END AS Reapprovisionnement
     FROM Produit;
-
 #Affiche le niveau de stock pour le produit nécessitant un réapprovisionnement.
 
 
@@ -202,7 +197,6 @@ SELECT Refprod, Nomprod, PrixUnit,
             ELSE "Produits de luxe"
         END AS Gamme
     FROM Produit;
-
 #Comparaison du prix unitaire des produits avec deux valeurs seuils. 
 
 
