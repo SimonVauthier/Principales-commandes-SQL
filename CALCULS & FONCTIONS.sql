@@ -17,7 +17,7 @@ SELECT RefProd AS Reference,
 
 SELECT RefProd, 
         PrixUnit * UnitesStock AS "Montant en stock"
-    FROM Produit;             #le montatn en stock pour chaque produit est égall au prix unitaire multiplié par la quantité de produits en stock
+    FROM Produit;             #le montant en stock pour chaque produit est égal au prix unitaire multiplié par la quantité de produits en stock
 
 
 ## COMBINAISON DE CLAUSES
@@ -48,7 +48,7 @@ SELECT RefProd,
 
 SELECT RefProd, 
         ROUND(PrixUnit * 1.05) AS "Nouveau Prix"
-    FROM Produit;             #calcule d'une augmentation de 5% des prix des produits
+    FROM Produit;             #calcule une augmentation de 5% des prix des produits
 
 
 SELECT RefProd, 
@@ -75,7 +75,10 @@ SELECT NoEmp, Nom || " " || SUBSTR(Prenom, 1, 1)
 
 
 SELECT NoEmp, Nom || " " || SUBSTR(Prenom, 1, 1) || "."
-    FROM Employe;    #l'ajout du "." dans la requête indique que c'est une initiale
+    FROM Employe;    
+    """ 
+    l'ajout du "." dans la requête indique que c'est une initiale
+    """
 
 
 ## MAJUSCULE/MINUSCULE
@@ -103,7 +106,10 @@ SELECT Nom, Prenom, Fonction,
 SELECT Nom, Adresse,
         INSTR(Adresse, "Ave.")
     FROM Employe;
-#commande INSTR(chaîne, souschaine) permet de rechercher la première apparition d'une sous-chaîne dans une chaîne.
+""" 
+commande INSTR(chaîne, souschaine) permet de rechercher la première apparition d'une sous-chaîne dans une chaîne.
+
+"""
 #Si la sous-chaîne n'est pas présente, la fonction renvoie 0.
 
 
