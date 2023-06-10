@@ -1,6 +1,6 @@
 # Principales commandes SQL
 
-## 2 formats disponibles :texte et SQL
+## 2 formats disponibles : texte et SQL
 
 ### **Liste des commandes disponibles**:
 1. *REQUETAGES SIMPLES* (SELECT,ORDRE,RESTRICTION,OPERATEURS, DONNEES MANQUANTES, PROJECTION, DOUBLONS, RENOMMAGE )
