@@ -1,4 +1,6 @@
-# Principales commandes SQL
+# Principales commandes SQL ![logo SQL](https://github.com/SimonVauthier/Principales-commandes-SQL/assets/129518759/afc96f43-32a7-477d-ba38-f8ec7ac5050a)
+
+
 
 ## 2 formats disponibles : texte et SQL
 
