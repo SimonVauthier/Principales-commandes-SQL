@@ -1,0 +1,146 @@
+## JOINTURE NATURELLE
+
+SELECT *
+    FROM Produit NATURAL JOIN Categorie;
+
+
+
+SELECT RefProd, NomProd, Categorie.*
+    FROM Produit NATURAL JOIN Categorie;
+
+#table.* permet de récupérer l'ensemble des colonnes d'une des tables (ici l'ensemble de la colonne Categorie)
+
+
+SELECT NomProd, Societe
+    FROM Produit NATURAL JOIN Fournisseur
+    WHERE Pays = "France";
+
+#Restriction sur un attribut: Sélection des produits uniquement fournis par des entreprises françaises.
+
+SELECT NomCateg, COUNT(*) AS "Nb Produits"
+    FROM Produit NATURAL JOIN Categorie
+    GROUP BY NomCateg
+    ORDER BY 2 DESC;
+
+	#jointure combinée à des agrégats
+
+## INNER JOIN
+
+SELECT *
+    FROM Produit INNER JOIN Categorie
+        USING (CodeCateg);
+
+
+
+SELECT *
+    FROM Produit INNER JOIN Categorie
+        ON Produit.CodeCateg = Categorie.CodeCateg;
+
+#les deux écritures retournent le même résultat
+
+
+
+SELECT NomProd, Societe
+    FROM Produit INNER JOIN Fournisseur
+        USING (NoFour)
+    WHERE Pays = "France";
+
+#INNER JOIN combinée à des restrictions
+
+
+
+SELECT NomCateg, COUNT(*) AS "Nb Produits"
+    FROM Produit INNER JOIN Categorie
+        USING (CodeCateg)
+    GROUP BY NomCateg
+    ORDER BY 2 DESC;
+
+##INNER JOIN combinée à des restrictions
+
+
+
+## UTILISATION D’ALIAS POUR LES TABLES
+
+Ces alias sont temporaires et ne sont utilisés que pendant la requête.
+
+
+SELECT *
+    FROM Produit AS P INNER JOIN Categorie AS C
+        ON P.CodeCateg = C.CodeCateg;
+
+
+## JOINTURES MULTIPLES
+
+
+SELECT *
+    FROM Produit 
+        INNER JOIN Categorie USING (CodeCateg)
+        INNER JOIN Fournisseur USING (NoFour);
+
+#Le défaut de ce type de jointure (naturelle ou interne) est qu'une ligne d'une table n'ayant pas de correspondances dans l'autre table n'est pas conservé dans le résultat.
+
+
+## OUTER JOIN
+
+La **jointure externe** (`OUTER JOIN`) .a pour but de garder toutes les lignes des deux tables (ou d'une seule des deux).
+
+Une jointure se fait entre deux tables. Nous parlerons de **jointure externe gauche** (`LEFT OUTER JOIN`) quand nous garderons les lignes de la table à gauche (la première citée donc). Et nous parlerons de **jointure externe droite** (`RIGHT OUTER JOIN`) quand nous garderons les lignes de la table à droite (la deuxième donc). Enfin, si l'on souhaite garder toutes les lignes des deux tables, il faut faire une **jointure externe complète** (`FULL OUTER JOIN`).
+
+
+SELECT *
+    FROM Client LEFT OUTER JOIN Commande
+        USING (CodeCli);
+
+
+
+SELECT *
+    FROM Commande RIGHT OUTER JOIN Client 
+        USING (CodeCli);
+
+
+
+SELECT *
+    FROM Client Cl LEFT OUTER JOIN Commande Co
+        ON Cl.CodeCli = Co.CodeCli;
+
+#Même requête utilisant l'écriture ON 
+
+
+## DECOMPTE AVEC PRISE EN COMPTE DU 0
+
+Si l'on veut avoir le nombre de commandes, et donc 0 pour ceux n'ayant aucune commande, il faut compter le nombre de valeurs non nulles d'un attribut, et de préférence la clé primaire de la deuxième table.
+
+Ainsi, si nous comptons le nombre de valeurs non nulles de `NoCom` (avec `COUNT(NoCom)`), comme fait dans la requête qui suit, nous avons bien un `0` qui apparaît pour les clients n'ayant aucune commande associée.
+
+
+SELECT CodeCli, COUNT(NoCom)
+    FROM Client LEFT OUTER JOIN Commande
+        USING (CodeCli)
+    GROUP BY CodeCli
+    ORDER BY 2;
+
+#en utilisant la clé primaire CodeCli, cette requête affichera bien la valeur 0 pour les clients sans commande.
+
+
+En associant une condition sur l'agrégat (avec `HAVING`), ce procédé permet de pouvoir récupérer uniquement les lignes d'une table n'ayant pas de correspondance dans l'autre.
+
+Par exemple, si nous souhaitons connaître le nom des sociétés clientes pour lesquelles nous n'avons pas de commandes associées, nous pourrions faire la requête suivante. Ici, `Cl.*` permet de récupérer toutes les informations de la table `Client`.
+
+
+SELECT Client.*
+        FROM Client LEFT OUTER JOIN Commande
+            USING (CodeCli)
+        GROUP BY CodeCli
+        HAVING COUNT(NoCom) == 0;
+
+
+Si on ajoute un autre calcul d'agrégat (somme, moyenne, ...), le résultat sera `NULL` pour les lignes n'ayant pas de correspondances.
+
+Par exemple, si nous calculons les frais de port moyens pour chaque client, nous n'avons pas de résultat pour les clients n'ayant aucune commande.
+
+
+SELECT CodeCli, COUNT(NoCom), AVG(Port)
+    FROM Client LEFT OUTER JOIN Commande
+        USING (CodeCli)
+    GROUP BY CodeCli
+    ORDER BY 2;
